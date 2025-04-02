@@ -10,7 +10,7 @@ describe('cv1karunnyi-ambulance-ufe-text', () => {
     expect(page.root).toEqualHtml(`
       <cv1karunnyi-ambulance-ufe-text>
         <mock:shadow-root>
-          <slot></slot>
+          <slot>Hello, world!</slot>
         </mock:shadow-root>
       </cv1karunnyi-ambulance-ufe-text>
     `);

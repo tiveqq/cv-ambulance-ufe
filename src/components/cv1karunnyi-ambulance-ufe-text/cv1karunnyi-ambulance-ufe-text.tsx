@@ -8,7 +8,9 @@ import { Component, Host, h } from '@stencil/core';
 export class Cv1karunnyiAmbulanceUfeText {
   render() {
     return (
-      <div>Hello world</div>
+      <Host>
+        <slot>Hello, world!</slot>
+      </Host>
     );
   }
 }
