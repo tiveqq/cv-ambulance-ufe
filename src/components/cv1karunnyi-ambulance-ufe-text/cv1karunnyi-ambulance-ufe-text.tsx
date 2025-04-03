@@ -7,6 +7,8 @@ import { Component, Host, h } from '@stencil/core';
 })
 export class Cv1karunnyiAmbulanceUfeText {
   render() {
+    console.log('Rendering cv1karunnyi-ambulance-ufe-text');
+
     return (
       <Host>
         <slot>Hello, world!</slot>
