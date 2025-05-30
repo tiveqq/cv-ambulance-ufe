@@ -5,12 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <title>Stencil Component Starter</title>
+    <title>Patient Treatment Tracking System</title>
 
     <script type="module" src="/build/ambulance-ufe.esm.js"></script>
     <script nomodule src="/build/ambulance-ufe.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+        background-color: #f5f5f5;
+      }
+
+      header {
+        background-color: #006a6a;
+        color: white;
+        padding: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      main {
+        padding: 16px;
+      }
+    </style>
   </head>
-  <body style="font-family: 'Roboto'; ">
-    <cv1karunnyi-ambulance-ufe-text></cv1karunnyi-ambulance-ufe-text>
+  <body>
+    <header>
+<!--      <h1>Patient Treatment Tracking System</h1>-->
+    </header>
+    <main>
+      <cv1karunnyi-ambulance-ufe-track></cv1karunnyi-ambulance-ufe-track>
+    </main>
   </body>
 </html>

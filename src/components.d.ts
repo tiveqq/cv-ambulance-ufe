@@ -8,6 +8,8 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface Cv1karunnyiAmbulanceUfeText {
     }
+    interface Cv1karunnyiAmbulanceUfeTrack {
+    }
 }
 declare global {
     interface HTMLCv1karunnyiAmbulanceUfeTextElement extends Components.Cv1karunnyiAmbulanceUfeText, HTMLStencilElement {
@@ -16,15 +18,25 @@ declare global {
         prototype: HTMLCv1karunnyiAmbulanceUfeTextElement;
         new (): HTMLCv1karunnyiAmbulanceUfeTextElement;
     };
+    interface HTMLCv1karunnyiAmbulanceUfeTrackElement extends Components.Cv1karunnyiAmbulanceUfeTrack, HTMLStencilElement {
+    }
+    var HTMLCv1karunnyiAmbulanceUfeTrackElement: {
+        prototype: HTMLCv1karunnyiAmbulanceUfeTrackElement;
+        new (): HTMLCv1karunnyiAmbulanceUfeTrackElement;
+    };
     interface HTMLElementTagNameMap {
         "cv1karunnyi-ambulance-ufe-text": HTMLCv1karunnyiAmbulanceUfeTextElement;
+        "cv1karunnyi-ambulance-ufe-track": HTMLCv1karunnyiAmbulanceUfeTrackElement;
     }
 }
 declare namespace LocalJSX {
     interface Cv1karunnyiAmbulanceUfeText {
     }
+    interface Cv1karunnyiAmbulanceUfeTrack {
+    }
     interface IntrinsicElements {
         "cv1karunnyi-ambulance-ufe-text": Cv1karunnyiAmbulanceUfeText;
+        "cv1karunnyi-ambulance-ufe-track": Cv1karunnyiAmbulanceUfeTrack;
     }
 }
 export { LocalJSX as JSX };
@@ -32,6 +44,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "cv1karunnyi-ambulance-ufe-text": LocalJSX.Cv1karunnyiAmbulanceUfeText & JSXBase.HTMLAttributes<HTMLCv1karunnyiAmbulanceUfeTextElement>;
+            "cv1karunnyi-ambulance-ufe-track": LocalJSX.Cv1karunnyiAmbulanceUfeTrack & JSXBase.HTMLAttributes<HTMLCv1karunnyiAmbulanceUfeTrackElement>;
         }
     }
 }
