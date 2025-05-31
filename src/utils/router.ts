@@ -14,12 +14,9 @@ export interface NavigationState {
 // Router class to handle navigation
 export class Router {
   private static instance: Router;
-  private currentPath: string = '';
   private listeners: ((route: Route) => void)[] = [];
 
   private constructor() {
-    // Initialize with current location
-    this.currentPath = window.location.pathname;
 
     // Listen for navigation events
     window.addEventListener('popstate', (event) => {
@@ -45,7 +42,6 @@ export class Router {
     const state: NavigationState = { route };
 
     window.history.pushState(state, '', url);
-    this.currentPath = route.path;
 
     // Notify listeners about the route change
     this.notifyListeners(route);
@@ -57,7 +53,6 @@ export class Router {
     const state: NavigationState = { route };
 
     window.history.replaceState(state, '', url);
-    this.currentPath = route.path;
 
     this.notifyListeners(route);
   }
