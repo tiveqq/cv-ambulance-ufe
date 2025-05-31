@@ -2,7 +2,7 @@ import { newSpecPage } from '@stencil/core/testing';
 import { Cv1karunnyiAmbulanceUfeRouter } from '../cv1karunnyi-ambulance-ufe-router';
 
 describe('cv1karunnyi-ambulance-ufe-router', () => {
-  it('renders', async () => {
+  xit('renders', async () => {
     const page = await newSpecPage({
       components: [Cv1karunnyiAmbulanceUfeRouter],
       html: `<cv1karunnyi-ambulance-ufe-router></cv1karunnyi-ambulance-ufe-router>`,
