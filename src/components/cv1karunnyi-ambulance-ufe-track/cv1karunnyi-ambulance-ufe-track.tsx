@@ -1,4 +1,5 @@
-import { Component, Host, h, State } from '@stencil/core';
+import { Component, Host, h, State, Prop, Event, EventEmitter, Watch } from '@stencil/core';
+import { Route, Routes } from '../../utils/router';
 
 // Define interfaces for our data models
 interface Patient {
@@ -18,6 +19,13 @@ interface Patient {
   shadow: true,
 })
 export class Cv1karunnyiAmbulanceUfeTrack {
+  // Props for routing
+  @Prop() view: 'list' | 'detail' | 'create' = 'list';
+  @Prop() patientId?: string;
+
+  // Event emitter for navigation
+  @Event() navigate: EventEmitter<Route>;
+
   // Mock data for demonstration
   @State() patients: {
     id: string;
@@ -71,6 +79,43 @@ export class Cv1karunnyiAmbulanceUfeTrack {
   // Mock doctor ID (in a real app, this would come from authentication)
   private doctorId: string = 'doctor1';
 
+  // Watch for changes to props
+  @Watch('view')
+  viewChanged(newView: string) {
+    if (newView === 'create') {
+      this.isCreatingPatient = true;
+      this.selectedPatientId = null;
+      this.newPatient = {
+        name: '',
+        condition: '',
+        status: 'new',
+        doctorId: this.doctorId
+      };
+    } else if (newView === 'detail' && this.patientId) {
+      this.selectedPatientId = this.patientId;
+      this.isCreatingPatient = false;
+    } else {
+      // Default to list view
+      this.isCreatingPatient = false;
+    }
+  }
+
+  @Watch('patientId')
+  patientIdChanged(newPatientId: string) {
+    if (newPatientId && this.view === 'detail') {
+      this.selectedPatientId = newPatientId;
+      this.isCreatingPatient = false;
+    }
+  }
+
+  componentWillLoad() {
+    // Initialize based on props
+    this.viewChanged(this.view);
+    if (this.patientId) {
+      this.patientIdChanged(this.patientId);
+    }
+  }
+
   private handleTabChange(event: CustomEvent) {
     this.selectedTabIndex = event.detail.index;
     this.selectedPatientId = null;
@@ -78,19 +123,14 @@ export class Cv1karunnyiAmbulanceUfeTrack {
   }
 
   private handlePatientSelect(patientId: string) {
-    this.selectedPatientId = patientId;
-    this.isCreatingPatient = false;
+    // Use Navigation API to navigate to patient detail
+    this.navigate.emit(Routes.patientDetail(patientId));
   }
 
   private handleCreatePatient() {
-    this.isCreatingPatient = true;
-    this.selectedPatientId = null;
-    this.newPatient = {
-      name: '',
-      condition: '',
-      status: 'new',
-      doctorId: this.doctorId
-    };
+    // Use Navigation API to navigate to create patient
+    console.log('handleCreatePatient called, emitting navigation event to:', Routes.PATIENT_CREATE);
+    this.navigate.emit({ path: Routes.PATIENT_CREATE });
   }
 
   private handleSaveNewPatient() {
@@ -104,8 +144,9 @@ export class Cv1karunnyiAmbulanceUfeTrack {
     };
 
     this.patients = [...this.patients, newPatient];
-    this.isCreatingPatient = false;
-    this.selectedPatientId = id;
+
+    // Navigate to the newly created patient's detail page
+    this.navigate.emit(Routes.patientDetail(id));
   }
 
   private handleUpdatePatient(updatedPatient: {
@@ -125,7 +166,9 @@ export class Cv1karunnyiAmbulanceUfeTrack {
 
   private handleArchivePatient(patientId: string) {
     this.patients = this.patients.filter(p => p.id !== patientId);
-    this.selectedPatientId = null;
+
+    // Navigate back to the patient list
+    this.navigate.emit({ path: Routes.PATIENT_LIST });
   }
 
   private renderPatientList() {

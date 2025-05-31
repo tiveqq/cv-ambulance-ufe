@@ -5,36 +5,70 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { Route } from "./utils/router";
+export { Route } from "./utils/router";
 export namespace Components {
+    interface Cv1karunnyiAmbulanceUfeRouter {
+    }
     interface Cv1karunnyiAmbulanceUfeText {
     }
     interface Cv1karunnyiAmbulanceUfeTrack {
+        "patientId"?: string;
+        "view": 'list' | 'detail' | 'create';
     }
 }
+export interface Cv1karunnyiAmbulanceUfeTrackCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCv1karunnyiAmbulanceUfeTrackElement;
+}
 declare global {
+    interface HTMLCv1karunnyiAmbulanceUfeRouterElement extends Components.Cv1karunnyiAmbulanceUfeRouter, HTMLStencilElement {
+    }
+    var HTMLCv1karunnyiAmbulanceUfeRouterElement: {
+        prototype: HTMLCv1karunnyiAmbulanceUfeRouterElement;
+        new (): HTMLCv1karunnyiAmbulanceUfeRouterElement;
+    };
     interface HTMLCv1karunnyiAmbulanceUfeTextElement extends Components.Cv1karunnyiAmbulanceUfeText, HTMLStencilElement {
     }
     var HTMLCv1karunnyiAmbulanceUfeTextElement: {
         prototype: HTMLCv1karunnyiAmbulanceUfeTextElement;
         new (): HTMLCv1karunnyiAmbulanceUfeTextElement;
     };
+    interface HTMLCv1karunnyiAmbulanceUfeTrackElementEventMap {
+        "navigate": Route;
+    }
     interface HTMLCv1karunnyiAmbulanceUfeTrackElement extends Components.Cv1karunnyiAmbulanceUfeTrack, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCv1karunnyiAmbulanceUfeTrackElementEventMap>(type: K, listener: (this: HTMLCv1karunnyiAmbulanceUfeTrackElement, ev: Cv1karunnyiAmbulanceUfeTrackCustomEvent<HTMLCv1karunnyiAmbulanceUfeTrackElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCv1karunnyiAmbulanceUfeTrackElementEventMap>(type: K, listener: (this: HTMLCv1karunnyiAmbulanceUfeTrackElement, ev: Cv1karunnyiAmbulanceUfeTrackCustomEvent<HTMLCv1karunnyiAmbulanceUfeTrackElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCv1karunnyiAmbulanceUfeTrackElement: {
         prototype: HTMLCv1karunnyiAmbulanceUfeTrackElement;
         new (): HTMLCv1karunnyiAmbulanceUfeTrackElement;
     };
     interface HTMLElementTagNameMap {
+        "cv1karunnyi-ambulance-ufe-router": HTMLCv1karunnyiAmbulanceUfeRouterElement;
         "cv1karunnyi-ambulance-ufe-text": HTMLCv1karunnyiAmbulanceUfeTextElement;
         "cv1karunnyi-ambulance-ufe-track": HTMLCv1karunnyiAmbulanceUfeTrackElement;
     }
 }
 declare namespace LocalJSX {
+    interface Cv1karunnyiAmbulanceUfeRouter {
+    }
     interface Cv1karunnyiAmbulanceUfeText {
     }
     interface Cv1karunnyiAmbulanceUfeTrack {
+        "onNavigate"?: (event: Cv1karunnyiAmbulanceUfeTrackCustomEvent<Route>) => void;
+        "patientId"?: string;
+        "view"?: 'list' | 'detail' | 'create';
     }
     interface IntrinsicElements {
+        "cv1karunnyi-ambulance-ufe-router": Cv1karunnyiAmbulanceUfeRouter;
         "cv1karunnyi-ambulance-ufe-text": Cv1karunnyiAmbulanceUfeText;
         "cv1karunnyi-ambulance-ufe-track": Cv1karunnyiAmbulanceUfeTrack;
     }
@@ -43,6 +77,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "cv1karunnyi-ambulance-ufe-router": LocalJSX.Cv1karunnyiAmbulanceUfeRouter & JSXBase.HTMLAttributes<HTMLCv1karunnyiAmbulanceUfeRouterElement>;
             "cv1karunnyi-ambulance-ufe-text": LocalJSX.Cv1karunnyiAmbulanceUfeText & JSXBase.HTMLAttributes<HTMLCv1karunnyiAmbulanceUfeTextElement>;
             "cv1karunnyi-ambulance-ufe-track": LocalJSX.Cv1karunnyiAmbulanceUfeTrack & JSXBase.HTMLAttributes<HTMLCv1karunnyiAmbulanceUfeTrackElement>;
         }

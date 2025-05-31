@@ -31,6 +31,20 @@ import '@material/web/tabs/tabs'
 import '@material/web/textfield/filled-text-field'
 import '@material/web/textfield/outlined-text-field'
 
-export default function() { // or export default async function()
-    // package initialization code
+// Import router
+import { router, Routes } from '../utils/router';
+
+export default function() {
+  // Initialize router with default route
+  const currentRoute = router.getCurrentRoute();
+
+  // If we're at the root, redirect to patients list
+  if (currentRoute.path === '/' || currentRoute.path === '') {
+    router.replace({ path: Routes.PATIENT_LIST });
   }
+
+  // Log navigation for debugging
+  router.subscribe(route => {
+    console.log('Navigation to:', route);
+  });
+}
