@@ -9,10 +9,12 @@ import { Route } from "./utils/router";
 export { Route } from "./utils/router";
 export namespace Components {
     interface Cv1karunnyiAmbulanceUfeRouter {
+        "apiBase": string;
     }
     interface Cv1karunnyiAmbulanceUfeText {
     }
     interface Cv1karunnyiAmbulanceUfeTrack {
+        "apiBase": string;
         "patientId"?: string;
         "view": 'list' | 'detail' | 'create';
     }
@@ -59,10 +61,12 @@ declare global {
 }
 declare namespace LocalJSX {
     interface Cv1karunnyiAmbulanceUfeRouter {
+        "apiBase"?: string;
     }
     interface Cv1karunnyiAmbulanceUfeText {
     }
     interface Cv1karunnyiAmbulanceUfeTrack {
+        "apiBase"?: string;
         "onNavigate"?: (event: Cv1karunnyiAmbulanceUfeTrackCustomEvent<Route>) => void;
         "patientId"?: string;
         "view"?: 'list' | 'detail' | 'create';

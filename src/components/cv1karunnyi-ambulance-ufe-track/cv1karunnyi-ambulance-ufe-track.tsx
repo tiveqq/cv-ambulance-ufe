@@ -1,17 +1,6 @@
 import { Component, Host, h, State, Prop, Event, EventEmitter, Watch } from '@stencil/core';
 import { Route, Routes } from '../../utils/router';
-
-// Define interfaces for our data models
-interface Patient {
-  id: string;
-  name: string;
-  condition: string;
-  diagnosisDate?: string;
-  treatmentStartDate?: string;
-  expectedCompletionDate?: string;
-  status: 'new' | 'diagnosed' | 'in-treatment' | 'completed';
-  doctorId: string;
-}
+import { Configuration, Patient, PatientInput, PatientsApi } from '../../api/patients-api';
 
 @Component({
   tag: 'cv1karunnyi-ambulance-ufe-track',
@@ -22,9 +11,14 @@ export class Cv1karunnyiAmbulanceUfeTrack {
   // Props for routing
   @Prop() view: 'list' | 'detail' | 'create' = 'list';
   @Prop() patientId?: string;
+  @Prop() apiBase: string = 'http://localhost:5000/api';
 
   // Event emitter for navigation
   @Event() navigate: EventEmitter<Route>;
+
+  // API client
+  private patientsApi: PatientsApi;
+  @State() errorMessage: string;
 
   // Mock data for demonstration
   @State() patients: {
@@ -109,10 +103,32 @@ export class Cv1karunnyiAmbulanceUfeTrack {
   }
 
   componentWillLoad() {
+    // Initialize API client
+    const configuration = new Configuration({
+      basePath: this.apiBase,
+    });
+    this.patientsApi = new PatientsApi(configuration);
+
     // Initialize based on props
     this.viewChanged(this.view);
     if (this.patientId) {
       this.patientIdChanged(this.patientId);
+    }
+
+    // Fetch patients from API
+    this.fetchPatients();
+  }
+
+  private async fetchPatients() {
+    try {
+      const response = await this.patientsApi.getPatientsRaw();
+      if (response.raw.status < 299) {
+        this.patients = await response.value();
+      } else {
+        this.errorMessage = `Cannot retrieve list of patients: ${response.raw.statusText}`;
+      }
+    } catch (err: any) {
+      this.errorMessage = `Cannot retrieve list of patients: ${err.message || "unknown"}`;
     }
   }
 
@@ -133,42 +149,88 @@ export class Cv1karunnyiAmbulanceUfeTrack {
     this.navigate.emit({ path: Routes.PATIENT_CREATE });
   }
 
-  private handleSaveNewPatient() {
-    const id = (this.patients.length + 1).toString();
-    const newPatient: Patient = {
-      id,
-      name: this.newPatient.name,
-      condition: this.newPatient.condition,
-      status: 'new',
-      doctorId: this.doctorId
-    };
+  private async handleSaveNewPatient() {
+    try {
+      const patientInput: PatientInput = {
+        name: this.newPatient.name,
+        condition: this.newPatient.condition,
+        status: 'new'
+      };
 
-    this.patients = [...this.patients, newPatient];
+      const response = await this.patientsApi.createPatientRaw({ patient: patientInput });
 
-    // Navigate to the newly created patient's detail page
-    this.navigate.emit(Routes.patientDetail(id));
+      if (response.raw.status < 299) {
+        const newPatient = await response.value();
+
+        // Add the new patient to the local list
+        this.patients = [...this.patients, newPatient];
+
+        // Navigate to the newly created patient's detail page
+        this.navigate.emit(Routes.patientDetail(newPatient.id));
+      } else {
+        this.errorMessage = `Cannot create patient: ${response.raw.statusText}`;
+      }
+    } catch (err: any) {
+      this.errorMessage = `Cannot create patient: ${err.message || "unknown"}`;
+    }
   }
 
-  private handleUpdatePatient(updatedPatient: {
+  private async handleUpdatePatient(updatedPatient: {
     id: string;
     name: string;
-    condition: string;
+    condition: any;
     diagnosisDate?: string;
     treatmentStartDate?: string;
     expectedCompletionDate?: string;
     status: string;
     doctorId: string
   }) {
-    this.patients = this.patients.map(p =>
-      p.id === updatedPatient.id ? updatedPatient : p
-    );
+    try {
+      const patientInput: PatientInput = {
+        name: updatedPatient.name,
+        condition: updatedPatient.condition,
+        diagnosisDate: updatedPatient.diagnosisDate,
+        treatmentStartDate: updatedPatient.treatmentStartDate,
+        expectedCompletionDate: updatedPatient.expectedCompletionDate,
+        status: updatedPatient.status
+      };
+
+      const response = await this.patientsApi.updatePatientRaw({
+        patientId: updatedPatient.id,
+        patient: patientInput
+      });
+
+      if (response.raw.status < 299) {
+        const updatedPatientFromApi = await response.value();
+
+        // Update the patient in the local list
+        this.patients = this.patients.map(p =>
+          p.id === updatedPatientFromApi.id ? updatedPatientFromApi : p
+        );
+      } else {
+        this.errorMessage = `Cannot update patient: ${response.raw.statusText}`;
+      }
+    } catch (err: any) {
+      this.errorMessage = `Cannot update patient: ${err.message || "unknown"}`;
+    }
   }
 
-  private handleArchivePatient(patientId: string) {
-    this.patients = this.patients.filter(p => p.id !== patientId);
+  private async handleArchivePatient(patientId: string) {
+    try {
+      const response = await this.patientsApi.archivePatientRaw({ patientId });
 
-    // Navigate back to the patient list
-    this.navigate.emit({ path: Routes.PATIENT_LIST });
+      if (response.raw.status < 299) {
+        // Remove the patient from the local list
+        this.patients = this.patients.filter(p => p.id !== patientId);
+
+        // Navigate back to the patient list
+        this.navigate.emit({ path: Routes.PATIENT_LIST });
+      } else {
+        this.errorMessage = `Cannot archive patient: ${response.raw.statusText}`;
+      }
+    } catch (err: any) {
+      this.errorMessage = `Cannot archive patient: ${err.message || "unknown"}`;
+    }
   }
 
   private renderPatientList() {
@@ -339,6 +401,13 @@ export class Cv1karunnyiAmbulanceUfeTrack {
       <Host>
         <div class="container">
           <h1>Patient Treatment Tracking</h1>
+
+          {this.errorMessage && (
+            <div class="error-message">
+              <p>{this.errorMessage}</p>
+              <md-text-button onClick={() => this.errorMessage = null}>Dismiss</md-text-button>
+            </div>
+          )}
 
           <md-tabs
             onMdTabChange={(e) => this.handleTabChange(e)}

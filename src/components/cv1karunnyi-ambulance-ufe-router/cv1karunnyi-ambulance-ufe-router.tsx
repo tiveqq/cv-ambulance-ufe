@@ -1,4 +1,4 @@
-import { Component, Host, h, State, Listen } from '@stencil/core';
+import { Component, Host, h, State, Listen, Prop } from '@stencil/core';
 import { router, Route, Routes } from '../../utils/router';
 
 @Component({
@@ -8,6 +8,7 @@ import { router, Route, Routes } from '../../utils/router';
 })
 export class Cv1karunnyiAmbulanceUfeRouter {
   @State() currentRoute: Route;
+  @Prop() apiBase: string = 'http://localhost:5000/api';
   private unsubscribe: () => void;
 
   componentWillLoad() {
@@ -42,24 +43,24 @@ export class Cv1karunnyiAmbulanceUfeRouter {
     // Match routes
     if (path === Routes.PATIENT_LIST) {
       console.log('Rendering patient list view');
-      return <cv1karunnyi-ambulance-ufe-track view="list" />;
+      return <cv1karunnyi-ambulance-ufe-track view="list" api-base={this.apiBase} />;
     }
 
     // Check if it's the create patient route - check this before patient detail route
     if (path === Routes.PATIENT_CREATE) {
       console.log('Rendering create patient view');
-      return <cv1karunnyi-ambulance-ufe-track view="create" />;
+      return <cv1karunnyi-ambulance-ufe-track view="create" api-base={this.apiBase} />;
     }
 
     // Check if it's a patient detail route
     if (path.match(/^\/patients\/[^/]+$/)) {
       const patientId = path.split('/').pop();
       console.log('Rendering patient detail view for patient:', patientId);
-      return <cv1karunnyi-ambulance-ufe-track view="detail" patientId={patientId} />;
+      return <cv1karunnyi-ambulance-ufe-track view="detail" patient-id={patientId} api-base={this.apiBase} />;
     }
 
     // Default to patient list
-    return <cv1karunnyi-ambulance-ufe-track view="list" />;
+    return <cv1karunnyi-ambulance-ufe-track view="list" api-base={this.apiBase} />;
   }
 
   render() {
