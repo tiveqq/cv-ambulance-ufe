@@ -15,10 +15,10 @@ export class Cv1karunnyiAmbulanceUfeRouter {
     // Get initial route
     this.currentRoute = router.getCurrentRoute();
 
-    // Subscribe to route changes
-    this.unsubscribe = router.subscribe(route => {
-      this.currentRoute = route;
-    });
+    // // Subscribe to route changes
+    // this.unsubscribe = router.subscribe(route => {
+    //   this.currentRoute = route;
+    // });
   }
 
   disconnectedCallback() {
