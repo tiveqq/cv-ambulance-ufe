@@ -72,20 +72,20 @@ export class Cv1karunnyiAmbulanceUfeRouter {
             <nav>
               <ul>
                 <li>
-                  {/*<a href="#" onClick={(e) => {*/}
-                  {/*  e.preventDefault();*/}
-                  {/*  router.navigate({ path: Routes.PATIENT_LIST });*/}
-                  {/*}}>*/}
-                  {/*  Patients*/}
-                  {/*</a>*/}
+                  <a href="#" onClick={(e) => {
+                    e.preventDefault();
+                    router.navigate({ path: Routes.PATIENT_LIST });
+                  }}>
+                    Patients
+                  </a>
                 </li>
                 <li>
-                  {/*<a href="#" onClick={(e) => {*/}
-                  {/*  e.preventDefault();*/}
-                  {/*  router.navigate({ path: Routes.PATIENT_CREATE });*/}
-                  {/*}}>*/}
-                  {/*  New Patient*/}
-                  {/*</a>*/}
+                  <a href="#" onClick={(e) => {
+                    e.preventDefault();
+                    router.navigate({ path: Routes.PATIENT_CREATE });
+                  }}>
+                    New Patient
+                  </a>
                 </li>
               </ul>
             </nav>
