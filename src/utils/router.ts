@@ -45,13 +45,8 @@ export class Router {
 
   // Navigate to a new route
   public navigate(route: Route): void {
-    // Update browser history
-    const fullPath = this.getFullPath(route.path);
-    const url = fullPath + this.buildQueryParams(route.params);
-    const state: NavigationState = { route };
-
-    console.log('Navigating to:', url);
-    window.history.pushState(state, '', url);
+    // Skip URL changes but keep state
+    console.log('Navigating to route (without URL change):', route.path);
 
     // Notify listeners about the route change
     this.notifyListeners(route);
@@ -59,36 +54,33 @@ export class Router {
 
   // Replace current route without adding to history
   public replace(route: Route): void {
-    const fullPath = this.getFullPath(route.path);
-    const url = fullPath + this.buildQueryParams(route.params);
-    const state: NavigationState = { route };
+    // Skip URL changes but keep state
+    console.log('Replacing route (without URL change):', route.path);
 
-    console.log('Replacing route with:', url);
-    window.history.replaceState(state, '', url);
-
+    // Notify listeners about the route change
     this.notifyListeners(route);
   }
 
   // Helper to get full path with base path
-  private getFullPath(path: string): string {
-    // If path is already absolute with our base path, return it as is
-    if (this.basePath && path.startsWith(this.basePath)) {
-      return path;
-    }
-
-    // Otherwise, prepend the base path
-    return `${this.basePath}${path}`;
-  }
-
-  // Subscribe to route changes
-  public subscribe(listener: (route: Route) => void): () => void {
-    this.listeners.push(listener);
-
-    // Return unsubscribe function
-    return () => {
-      this.listeners = this.listeners.filter(l => l !== listener);
-    };
-  }
+  // private getFullPath(path: string): string {
+  //   // If path is already absolute with our base path, return it as is
+  //   if (this.basePath && path.startsWith(this.basePath)) {
+  //     return path;
+  //   }
+  //
+  //   // Otherwise, prepend the base path
+  //   return `${this.basePath}${path}`;
+  // }
+  //
+  // // Subscribe to route changes
+  // public subscribe(listener: (route: Route) => void): () => void {
+  //   this.listeners.push(listener);
+  //
+  //   // Return unsubscribe function
+  //   return () => {
+  //     this.listeners = this.listeners.filter(l => l !== listener);
+  //   };
+  // }
 
   // Get current route
   public getCurrentRoute(): Route {
@@ -105,18 +97,18 @@ export class Router {
   }
 
   // Helper to build query parameters
-  private buildQueryParams(params?: Record<string, string>): string {
-    if (!params || Object.keys(params).length === 0) {
-      return '';
-    }
-
-    const queryParams = new URLSearchParams();
-    Object.entries(params).forEach(([key, value]) => {
-      queryParams.append(key, value);
-    });
-
-    return `?${queryParams.toString()}`;
-  }
+  // private buildQueryParams(params?: Record<string, string>): string {
+  //   if (!params || Object.keys(params).length === 0) {
+  //     return '';
+  //   }
+  //
+  //   const queryParams = new URLSearchParams();
+  //   Object.entries(params).forEach(([key, value]) => {
+  //     queryParams.append(key, value);
+  //   });
+  //
+  //   return `?${queryParams.toString()}`;
+  // }
 
   // Helper to parse query parameters
   private parseQueryParams(): Record<string, string> {
