@@ -45,7 +45,7 @@ export default function() {
   }
 
   // Log navigation for debugging
-  router.subscribe(route => {
-    console.log('Navigation to:', route);
-  });
+  // router.subscribe(route => {
+  //   console.log('Navigation to:', route);
+  // });
 }
