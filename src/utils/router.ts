@@ -15,8 +15,16 @@ export interface NavigationState {
 export class Router {
   private static instance: Router;
   private listeners: ((route: Route) => void)[] = [];
+  private basePath: string = '';
 
   private constructor() {
+    // Determine base path from current location
+    const pathSegments = window.location.pathname.split('/');
+    if (pathSegments.length >= 3 && pathSegments[1] === 'fea') {
+      // If we're in the /fea/[app-name] path structure
+      this.basePath = `/${pathSegments[1]}/${pathSegments[2]}`;
+      console.log('Router initialized with base path:', this.basePath);
+    }
 
     // Listen for navigation events
     window.addEventListener('popstate', (event) => {
@@ -38,9 +46,11 @@ export class Router {
   // Navigate to a new route
   public navigate(route: Route): void {
     // Update browser history
-    const url = route.path + this.buildQueryParams(route.params);
+    const fullPath = this.getFullPath(route.path);
+    const url = fullPath + this.buildQueryParams(route.params);
     const state: NavigationState = { route };
 
+    console.log('Navigating to:', url);
     window.history.pushState(state, '', url);
 
     // Notify listeners about the route change
@@ -49,12 +59,25 @@ export class Router {
 
   // Replace current route without adding to history
   public replace(route: Route): void {
-    const url = route.path + this.buildQueryParams(route.params);
+    const fullPath = this.getFullPath(route.path);
+    const url = fullPath + this.buildQueryParams(route.params);
     const state: NavigationState = { route };
 
+    console.log('Replacing route with:', url);
     window.history.replaceState(state, '', url);
 
     this.notifyListeners(route);
+  }
+
+  // Helper to get full path with base path
+  private getFullPath(path: string): string {
+    // If path is already absolute with our base path, return it as is
+    if (this.basePath && path.startsWith(this.basePath)) {
+      return path;
+    }
+
+    // Otherwise, prepend the base path
+    return `${this.basePath}${path}`;
   }
 
   // Subscribe to route changes
@@ -69,8 +92,15 @@ export class Router {
 
   // Get current route
   public getCurrentRoute(): Route {
-    const path = window.location.pathname;
+    let path = window.location.pathname;
+
+    // Strip base path from the current path if it exists
+    if (this.basePath && path.startsWith(this.basePath)) {
+      path = path.substring(this.basePath.length) || '/';
+    }
+
     const params = this.parseQueryParams();
+    console.log('Current route path (after stripping base path):', path);
     return { path, params };
   }
 
