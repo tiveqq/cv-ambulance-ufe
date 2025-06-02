@@ -30,6 +30,7 @@ import '@material/web/tabs/primary-tab'
 import '@material/web/tabs/tabs'
 import '@material/web/textfield/filled-text-field'
 import '@material/web/textfield/outlined-text-field'
+import '../components'
 
 // Import router
 import { router, Routes } from '../utils/router';
