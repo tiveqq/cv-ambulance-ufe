@@ -1,8 +1,8 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { Cv1karunnyiAmbulanceUfeText } from '../cv1karunnyi-ambulance-ufe-text';
 
-xdescribe('cv1karunnyi-ambulance-ufe-text', () => {
-  it('renders', async () => {
+describe('cv1karunnyi-ambulance-ufe-text', () => {
+  xit('renders', async () => {
     const page = await newSpecPage({
       components: [Cv1karunnyiAmbulanceUfeText],
       html: `<cv1karunnyi-ambulance-ufe-text></cv1karunnyi-ambulance-ufe-text>`,
