@@ -45,16 +45,8 @@ export class Router {
 
   // Navigate to a new route
   public navigate(route: Route): void {
-    // Get full path with base path
-    const fullPath = this.getFullPath(route.path);
-    console.log('Navigating to route:', fullPath);
-
-    // Update browser URL
-    window.history.pushState(
-      { route } as NavigationState,
-      '',
-      fullPath
-    );
+    // Skip URL changes but keep state
+    console.log('Navigating to route (without URL change):', route.path);
 
     // Notify listeners about the route change
     this.notifyListeners(route);
@@ -62,41 +54,33 @@ export class Router {
 
   // Replace current route without adding to history
   public replace(route: Route): void {
-    // Get full path with base path
-    const fullPath = this.getFullPath(route.path);
-    console.log('Replacing route:', fullPath);
-
-    // Replace browser URL
-    window.history.replaceState(
-      { route } as NavigationState,
-      '',
-      fullPath
-    );
+    // Skip URL changes but keep state
+    console.log('Replacing route (without URL change):', route.path);
 
     // Notify listeners about the route change
     this.notifyListeners(route);
   }
 
   // Helper to get full path with base path
-  private getFullPath(path: string): string {
-    // If path is already absolute with our base path, return it as is
-    if (this.basePath && path.startsWith(this.basePath)) {
-      return path;
-    }
-
-    // Otherwise, prepend the base path
-    return `${this.basePath}${path}`;
-  }
-
-  // Subscribe to route changes
-  public subscribe(listener: (route: Route) => void): () => void {
-    this.listeners.push(listener);
-
-    // Return unsubscribe function
-    return () => {
-      this.listeners = this.listeners.filter(l => l !== listener);
-    };
-  }
+  // private getFullPath(path: string): string {
+  //   // If path is already absolute with our base path, return it as is
+  //   if (this.basePath && path.startsWith(this.basePath)) {
+  //     return path;
+  //   }
+  //
+  //   // Otherwise, prepend the base path
+  //   return `${this.basePath}${path}`;
+  // }
+  //
+  // // Subscribe to route changes
+  // public subscribe(listener: (route: Route) => void): () => void {
+  //   this.listeners.push(listener);
+  //
+  //   // Return unsubscribe function
+  //   return () => {
+  //     this.listeners = this.listeners.filter(l => l !== listener);
+  //   };
+  // }
 
   // Get current route
   public getCurrentRoute(): Route {

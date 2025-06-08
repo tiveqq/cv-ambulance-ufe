@@ -6,17 +6,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <title>Patient Treatment Tracking System</title>
-    <!-- Base tag will be set dynamically based on environment -->
-    <script>
-      // Check if we're in the /fea/cv1-karunnyi-ambulance-ufe path structure
-      const pathSegments = window.location.pathname.split('/');
-      let basePath = '/';
-      if (pathSegments.length >= 3 && pathSegments[1] === 'fea') {
-        // If we're in the /fea/[app-name] path structure
-        basePath = `/${pathSegments[1]}/${pathSegments[2]}/`;
-      }
-      document.write(`<base href="${basePath}">`);
-    </script>
+    <base href="/">
 
     <script type="module" src="/build/ambulance-ufe.esm.js"></script>
     <script nomodule src="/build/ambulance-ufe.js"></script>
@@ -35,6 +25,6 @@
     </style>
   </head>
   <body>
-    <cv1karunnyi-ambulance-ufe-router api-base="http://localhost:5000/api" base-path="/ambulance-wl/"></cv1karunnyi-ambulance-ufe-router>
+    <cv1karunnyi-ambulance-ufe-router api-base="http://localhost:5000/api"></cv1karunnyi-ambulance-ufe-router>
   </body>
 </html>

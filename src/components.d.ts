@@ -5,11 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Route } from "./utils/router";
-export { Route } from "./utils/router";
+import { Route } from "./global/routes";
+export { Route } from "./global/routes";
 export namespace Components {
     interface Cv1karunnyiAmbulanceUfeRouter {
         "apiBase": string;
+        "basePath": string;
     }
     interface Cv1karunnyiAmbulanceUfeText {
     }
@@ -62,6 +63,7 @@ declare global {
 declare namespace LocalJSX {
     interface Cv1karunnyiAmbulanceUfeRouter {
         "apiBase"?: string;
+        "basePath"?: string;
     }
     interface Cv1karunnyiAmbulanceUfeText {
     }
