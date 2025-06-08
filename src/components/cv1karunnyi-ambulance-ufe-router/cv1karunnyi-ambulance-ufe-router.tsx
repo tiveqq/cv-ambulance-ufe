@@ -1,5 +1,5 @@
 import { Component, Host, h, State, Listen, Prop } from '@stencil/core';
-import { router, Route, Routes } from '../../utils/router';
+import { Route, Routes, getCurrentRoute, navigate } from '../../global/routes';
 
 declare global {
   interface Window { navigation: any; }
@@ -13,22 +13,25 @@ declare global {
 export class Cv1karunnyiAmbulanceUfeRouter {
   @State() currentRoute: Route;
   @Prop() apiBase: string = 'http://localhost:5000/api';
-  private unsubscribe: () => void;
+  private navigationListener: any;
 
   componentWillLoad() {
     // Get initial route
-    this.currentRoute = router.getCurrentRoute();
+    this.currentRoute = getCurrentRoute();
 
-    // Subscribe to route changes
-    this.unsubscribe = router.subscribe(route => {
-      this.currentRoute = route;
-    });
+    // Subscribe to route changes using Navigation API
+    this.navigationListener = (event: any) => {
+      // Update current route when navigation occurs
+      this.currentRoute = getCurrentRoute();
+    };
+
+    window.navigation.addEventListener('navigate', this.navigationListener);
   }
 
   disconnectedCallback() {
-    // Clean up subscription when component is destroyed
-    if (this.unsubscribe) {
-      this.unsubscribe();
+    // Clean up event listener when component is destroyed
+    if (this.navigationListener) {
+      window.navigation.removeEventListener('navigate', this.navigationListener);
     }
   }
 
@@ -36,7 +39,7 @@ export class Cv1karunnyiAmbulanceUfeRouter {
   @Listen('navigate')
   handleNavigate(event: CustomEvent<Route>) {
     console.log('Navigation event received:', event.detail);
-    router.navigate(event.detail);
+    navigate(event.detail);
   }
 
   // Render the appropriate component based on the current route
@@ -78,7 +81,7 @@ export class Cv1karunnyiAmbulanceUfeRouter {
                 <li>
                   <a href="#" onClick={(e) => {
                     e.preventDefault();
-                    router.navigate({ path: Routes.PATIENT_LIST });
+                    navigate({ path: Routes.PATIENT_LIST });
                   }}>
                     Patients
                   </a>
@@ -86,7 +89,7 @@ export class Cv1karunnyiAmbulanceUfeRouter {
                 <li>
                   <a href="#" onClick={(e) => {
                     e.preventDefault();
-                    router.navigate({ path: Routes.PATIENT_CREATE });
+                    navigate({ path: Routes.PATIENT_CREATE });
                   }}>
                     New Patient
                   </a>

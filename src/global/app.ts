@@ -32,23 +32,24 @@ import '@material/web/textfield/filled-text-field'
 import '@material/web/textfield/outlined-text-field'
 import '../components'
 
-// Import router
-// import { router, Routes } from '../utils/router';
+// Import navigation
 import { registerNavigationApi } from './navigation';
+import { getCurrentRoute, Routes, navigate } from './routes';
 
 export default function() {
-  // Initialize router with default route
-  // const currentRoute = router.getCurrentRoute();
-  //
-  // // If we're at the root, redirect to patients list
-  // if (currentRoute.path === '/' || currentRoute.path === '') {
-  //   router.replace({ path: Routes.PATIENT_LIST });
-  // }
+  // Initialize navigation API
+  registerNavigationApi();
 
-  registerNavigationApi()
+  // Initialize with default route
+  const currentRoute = getCurrentRoute();
+
+  // If we're at the root, redirect to patients list
+  if (currentRoute.path === '/' || currentRoute.path === '') {
+    navigate({ path: Routes.PATIENT_LIST });
+  }
 
   // Log navigation for debugging
-  // router.subscribe(route => {
-  //   console.log('Navigation to:', route);
-  // });
+  window.navigation.addEventListener('navigate', (event: any) => {
+    console.log('Navigation to:', event.destination.url);
+  });
 }

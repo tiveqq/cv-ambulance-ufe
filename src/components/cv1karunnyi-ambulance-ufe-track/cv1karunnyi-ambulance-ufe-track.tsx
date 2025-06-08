@@ -1,5 +1,5 @@
 import { Component, Host, h, State, Prop, Event, EventEmitter, Watch } from '@stencil/core';
-import { Route, Routes } from '../../utils/router';
+import { Route, Routes } from '../../global/routes';
 import { Configuration, Patient, PatientInput, PatientsApi } from '../../api/patients-api';
 
 @Component({
