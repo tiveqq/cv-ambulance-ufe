@@ -33,16 +33,19 @@ import '@material/web/textfield/outlined-text-field'
 import '../components'
 
 // Import router
-import { router, Routes } from '../utils/router';
+// import { router, Routes } from '../utils/router';
+import { registerNavigationApi } from './navigation';
 
 export default function() {
   // Initialize router with default route
-  const currentRoute = router.getCurrentRoute();
+  // const currentRoute = router.getCurrentRoute();
+  //
+  // // If we're at the root, redirect to patients list
+  // if (currentRoute.path === '/' || currentRoute.path === '') {
+  //   router.replace({ path: Routes.PATIENT_LIST });
+  // }
 
-  // If we're at the root, redirect to patients list
-  if (currentRoute.path === '/' || currentRoute.path === '') {
-    router.replace({ path: Routes.PATIENT_LIST });
-  }
+  registerNavigationApi()
 
   // Log navigation for debugging
   // router.subscribe(route => {

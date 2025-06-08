@@ -1,6 +1,10 @@
 import { Component, Host, h, State, Listen, Prop } from '@stencil/core';
 import { router, Route, Routes } from '../../utils/router';
 
+declare global {
+  interface Window { navigation: any; }
+}
+
 @Component({
   tag: 'cv1karunnyi-ambulance-ufe-router',
   styleUrl: 'cv1karunnyi-ambulance-ufe-router.css',
