@@ -7,9 +7,10 @@
 
 ## Properties
 
-| Property  | Attribute  | Description | Type     | Default                       |
-| --------- | ---------- | ----------- | -------- | ----------------------------- |
-| `apiBase` | `api-base` |             | `string` | `'http://localhost:5000/api'` |
+| Property   | Attribute   | Description | Type     | Default                       |
+| ---------- | ----------- | ----------- | -------- | ----------------------------- |
+| `apiBase`  | `api-base`  |             | `string` | `'http://localhost:5001/api'` |
+| `basePath` | `base-path` |             | `string` | `'/'`                         |
 
 
 ## Dependencies

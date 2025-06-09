@@ -11,16 +11,15 @@ export function setBasePath(path: string) {
 
 export const Routes = {
   HOME: '/',
-  PATIENT_LIST: '/patients',
-  PATIENT_DETAIL: '/patients/:id',
+  PATIENT_LIST: '/patients', // changed
   PATIENT_CREATE: '/patients/create',
+  PATIENT_DETAIL: '/patients/:id',
 
-  patientDetail: (id: string) => ({
+  patientDetail: (id: string): Route => ({
     path: `/patients/${id}`,
     params: { id }
   }),
 };
-
 
 export function getCurrentRoute(): Route {
   let path = window.location.pathname;

@@ -75,6 +75,11 @@ export class Cv1karunnyiAmbulanceUfeTrack {
   // Mock doctor ID (in a real app, this would come from authentication)
   private doctorId: string = 'doctor1';
 
+  private resolvePath(relativePath: string): string {
+    // Removes leading slashes from relative path and trailing slashes from basePath
+    return `${this.basePath.replace(/\/+$/, '')}/${relativePath.replace(/^\/+/, '')}`;
+  }
+
   // Watch for changes to props
   @Watch('view')
   viewChanged(newView: string) {
@@ -142,13 +147,13 @@ export class Cv1karunnyiAmbulanceUfeTrack {
 
   private handlePatientSelect(patientId: string) {
     // Use Navigation API to navigate to patient detail
-    this.navigate.emit(Routes.patientDetail(patientId));
+    this.navigate.emit({ path: this.resolvePath(Routes.patientDetail(patientId).path) });
   }
 
   private handleCreatePatient() {
     // Use Navigation API to navigate to create patient
     console.log('handleCreatePatient called, emitting navigation event to:', Routes.PATIENT_CREATE);
-    this.navigate.emit({ path: Routes.PATIENT_CREATE });
+    this.navigate.emit({ path: this.resolvePath(Routes.PATIENT_CREATE) });
   }
 
   private async handleSaveNewPatient() {
@@ -226,7 +231,7 @@ export class Cv1karunnyiAmbulanceUfeTrack {
         this.patients = this.patients.filter(p => p.id !== patientId);
 
         // Navigate back to the patient list
-        this.navigate.emit({ path: Routes.PATIENT_LIST });
+        this.navigate.emit({ path: this.resolvePath(Routes.PATIENT_LIST) });
       } else {
         this.errorMessage = `Cannot archive patient: ${response.raw.statusText}`;
       }

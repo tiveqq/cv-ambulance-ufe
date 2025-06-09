@@ -34,9 +34,10 @@ import '../components'
 
 // Import navigation
 import { registerNavigationApi } from './navigation';
-import { getCurrentRoute, Routes, navigate } from './routes';
+import { getCurrentRoute, Routes, navigate, setBasePath } from './routes';
 
 export default function() {
+  setBasePath('/ambulance-wl/')
   // Initialize navigation API
   registerNavigationApi();
 

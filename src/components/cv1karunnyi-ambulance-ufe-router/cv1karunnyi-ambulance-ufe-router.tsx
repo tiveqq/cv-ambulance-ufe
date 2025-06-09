@@ -50,8 +50,7 @@ export class Cv1karunnyiAmbulanceUfeRouter {
     const newRelativePath = event.detail.path;
 
     // Remove leading slash to avoid absolute vs absolute URL error
-    const normalizedPath = newRelativePath.startsWith('/') ? newRelativePath.slice(1) : newRelativePath;
-
+    const normalizedPath = newRelativePath.replace(new RegExp(`^${this.basePath}`), '').replace(/^\/+/, '');
     const baseUri = new URL(this.basePath, document.baseURI);
     const absolutePath = new URL(normalizedPath, baseUri).pathname;
 
@@ -65,32 +64,31 @@ export class Cv1karunnyiAmbulanceUfeRouter {
     const path = this.currentRoute.path;
     console.log('Current route path:', path);
 
+    console.log(Routes.PATIENT_CREATE)
     if (path === Routes.PATIENT_LIST) {
-      return <cv1karunnyi-ambulance-ufe-track view="list" api-base={this.apiBase} />;
+      return <cv1karunnyi-ambulance-ufe-track view="list" api-base={this.apiBase} base-path={this.basePath} />;
     }
 
     if (path === Routes.PATIENT_CREATE) {
       console.log("Rendering Route Content " + this.apiBase)
-      return <cv1karunnyi-ambulance-ufe-track view="create" api-base={this.apiBase} />;
+      return <cv1karunnyi-ambulance-ufe-track view="create" api-base={this.apiBase} base-path={this.basePath} />;
     }
 
     if (path.match(/^\/patients\/[^/]+$/)) {
       const patientId = path.split('/').pop();
-      return <cv1karunnyi-ambulance-ufe-track view="detail" patient-id={patientId} api-base={this.apiBase} />;
+      return <cv1karunnyi-ambulance-ufe-track view="detail" patient-id={patientId} api-base={this.apiBase} base-path={this.basePath}/>;
     }
 
-    return <cv1karunnyi-ambulance-ufe-track view="list" api-base={this.apiBase} />;
+    return <cv1karunnyi-ambulance-ufe-track view="list" api-base={this.apiBase} base-path={this.basePath}/>;
   }
 
 
   render() {
 
     const navigate = (path: string) => {
-      // Remove leading slash if present
-      const normalized = path.startsWith('/') ? path.slice(1) : path;
-      const absolute = new URL(normalized, new URL(this.basePath, document.baseURI)).pathname;
-      window.navigation.navigate(absolute);
-    }
+      // Use the path as-is
+      window.navigation.navigate(path);
+    };
     return (
       <Host>
         <div class="router-container">

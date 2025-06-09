@@ -97,7 +97,7 @@ export class PatientsApi {
    */
   async createPatientRaw(params: { patient: PatientInput }): Promise<ApiResponse<Patient>> {
     const { patient } = params;
-    const response = await fetch(`${this.configuration.basePath}/patients/create`, {
+    const response = await fetch(`${this.configuration.basePath}/patients`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

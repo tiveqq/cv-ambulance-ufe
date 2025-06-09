@@ -9,7 +9,8 @@
 
 | Property    | Attribute    | Description | Type                             | Default                       |
 | ----------- | ------------ | ----------- | -------------------------------- | ----------------------------- |
-| `apiBase`   | `api-base`   |             | `string`                         | `'http://localhost:5000/api'` |
+| `apiBase`   | `api-base`   |             | `string`                         | `'http://localhost:5001/api'` |
+| `basePath`  | `base-path`  |             | `string`                         | `'/'`                         |
 | `patientId` | `patient-id` |             | `string`                         | `undefined`                   |
 | `view`      | `view`       |             | `"create" \| "detail" \| "list"` | `'list'`                      |
 

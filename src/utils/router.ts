@@ -1,6 +1,8 @@
 // Router service for SPA navigation using the Navigation API
 
 // Define route types
+import { basePath } from '../global/routes';
+
 export type Route = {
   path: string;
   params?: Record<string, string>;
@@ -133,10 +135,10 @@ export const router = Router.getInstance();
 
 // Define common routes
 export const Routes = {
-  HOME: '/',
-  PATIENT_LIST: '/patients',
-  PATIENT_DETAIL: '/patients/:id',
-  PATIENT_CREATE: '/patients/create',
+  HOME: `${basePath}/`,
+  PATIENT_LIST: `${basePath}patients`,
+  PATIENT_DETAIL: `${basePath}patients/:id`,
+  PATIENT_CREATE: `${basePath}patients/create`,
 
   // Helper to generate patient detail route
   patientDetail: (id: string) => ({
@@ -144,3 +146,4 @@ export const Routes = {
     params: { id }
   }),
 };
+
