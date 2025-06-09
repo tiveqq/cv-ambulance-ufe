@@ -11,7 +11,9 @@ export class Cv1karunnyiAmbulanceUfeTrack {
   // Props for routing
   @Prop() view: 'list' | 'detail' | 'create' = 'list';
   @Prop() patientId?: string;
-  @Prop() apiBase: string = 'http://localhost:5000/api';
+  @Prop() apiBase: string = 'http://localhost:5001/api';
+  @Prop() basePath: string = '/'; // NEW: basePath prop
+
 
   // Event emitter for navigation
   @Event() navigate: EventEmitter<Route>;

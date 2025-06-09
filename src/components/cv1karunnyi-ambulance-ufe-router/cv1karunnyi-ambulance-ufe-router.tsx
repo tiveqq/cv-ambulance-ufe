@@ -1,34 +1,41 @@
 import { Component, Host, h, State, Listen, Prop } from '@stencil/core';
 import {Route, Routes } from '../../utils/router';
 
+
+declare global {
+  interface Window { navigation: any; }
+}
+
 @Component({
   tag: 'cv1karunnyi-ambulance-ufe-router',
   styleUrl: 'cv1karunnyi-ambulance-ufe-router.css',
   shadow: true,
 })
 export class Cv1karunnyiAmbulanceUfeRouter {
+  //
   @State() currentRoute: Route;
 
-  @Prop() apiBase: string = 'http://localhost:5000/api';
+  @Prop() apiBase: string = 'http://localhost:5001/api';
   @Prop() basePath: string = '/'; // NEW: basePath prop
 
   private unsubscribe: () => void;
 
   componentWillLoad() {
-    const fullPath = window.location.pathname;
     const baseUri = new URL(this.basePath, document.baseURI || '/').pathname;
 
-    const relativePath = fullPath.startsWith(baseUri)
-      ? fullPath.slice(baseUri.length)
-      : '/';
+    const toRelative = (path: string) => {
+      if (path.startsWith(baseUri)) {
+      } else {
+      }
+    }
 
-    // Initialize current route using relative path
-    this.currentRoute = { path: '/' + relativePath.replace(/^\/+/, '') };
+    window.navigation?.addEventListener("navigate", (ev: Event) => {
+      if ((ev as any).canIntercept) { (ev as any).intercept(); }
+      let path = new URL((ev as any).destination.url).pathname;
+      toRelative(path);
+    });
 
-    // OPTIONAL: subscribe to custom router updates (e.g., if you implement custom pub-sub)
-    // this.unsubscribe = router.subscribe(route => {
-    //   this.currentRoute = route;
-    // });
+    toRelative(location.pathname)
   }
 
   disconnectedCallback() {
@@ -59,6 +66,7 @@ export class Cv1karunnyiAmbulanceUfeRouter {
     }
 
     if (path === Routes.PATIENT_CREATE) {
+      console.log("Rendering Route Content " + this.apiBase)
       return <cv1karunnyi-ambulance-ufe-track view="create" api-base={this.apiBase} />;
     }
 
@@ -70,18 +78,13 @@ export class Cv1karunnyiAmbulanceUfeRouter {
     return <cv1karunnyi-ambulance-ufe-track view="list" api-base={this.apiBase} />;
   }
 
-  // NEW: navigate helper that respects basePath
-  private navigateWithBase(relativePath: string) {
-    const baseUri = new URL(this.basePath, document.baseURI).pathname;
-    const absolutePath = new URL(relativePath, baseUri).pathname;
-
-    console.log('navigateWithBase:', absolutePath);
-
-    window.history.pushState({}, '', absolutePath);
-    this.currentRoute = { path: relativePath };
-  }
 
   render() {
+
+    const navigate = (path:string) => {
+      const absolute = new URL(path, new URL(this.basePath, document.baseURI)).pathname;
+      window.navigation.navigate(absolute)
+    }
     return (
       <Host>
         <div class="router-container">
@@ -89,17 +92,17 @@ export class Cv1karunnyiAmbulanceUfeRouter {
             <nav>
               <ul>
                 <li>
-                  <a href="#" onClick={(e) => {
+                  <a api-base={this.apiBase} onClick={(e) => {
                     e.preventDefault();
-                    this.navigateWithBase(Routes.PATIENT_LIST);
+                    navigate(Routes.PATIENT_LIST);
                   }}>
                     Patients
                   </a>
                 </li>
                 <li>
-                  <a href="#" onClick={(e) => {
+                  <a api-base={this.apiBase} onClick={(e) => {
                     e.preventDefault();
-                    this.navigateWithBase(Routes.PATIENT_CREATE);
+                    navigate(Routes.PATIENT_CREATE);
                   }}>
                     New Patient
                   </a>
