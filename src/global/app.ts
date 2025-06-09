@@ -51,6 +51,6 @@ export default function() {
 
   // Log navigation for debugging
   window.navigation.addEventListener('navigate', (event: any) => {
-    console.log('Navigation to:', event.destination.url);
+    console.log('Navigatin to:', event.destination.url);
   });
 }
