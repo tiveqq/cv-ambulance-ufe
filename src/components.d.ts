@@ -16,6 +16,7 @@ export namespace Components {
     }
     interface Cv1karunnyiAmbulanceUfeTrack {
         "apiBase": string;
+        "basePath": string;
         "patientId"?: string;
         "view": 'list' | 'detail' | 'create';
     }
@@ -69,6 +70,7 @@ declare namespace LocalJSX {
     }
     interface Cv1karunnyiAmbulanceUfeTrack {
         "apiBase"?: string;
+        "basePath"?: string;
         "onNavigate"?: (event: Cv1karunnyiAmbulanceUfeTrackCustomEvent<Route>) => void;
         "patientId"?: string;
         "view"?: 'list' | 'detail' | 'create';

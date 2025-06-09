@@ -24,10 +24,11 @@ export class Cv1karunnyiAmbulanceUfeRouter {
     const baseUri = new URL(this.basePath, document.baseURI || '/').pathname;
 
     const toRelative = (path: string) => {
-      if (path.startsWith(baseUri)) {
-      } else {
-      }
-    }
+      const relativePath = path.startsWith(baseUri)
+        ? path.slice(baseUri.length) || '/'
+        : path;
+      this.currentRoute = { path: '/' + relativePath.replace(/^\/+/, '') }; // normalize
+    };
 
     window.navigation?.addEventListener("navigate", (ev: Event) => {
       if ((ev as any).canIntercept) { (ev as any).intercept(); }
@@ -44,12 +45,15 @@ export class Cv1karunnyiAmbulanceUfeRouter {
     }
   }
 
-  // Listen for navigation events from child components
   @Listen('navigate')
   handleNavigate(event: CustomEvent<Route>) {
     const newRelativePath = event.detail.path;
-    const baseUri = new URL(this.basePath, document.baseURI).pathname;
-    const absolutePath = new URL(newRelativePath, baseUri).pathname;
+
+    // Remove leading slash to avoid absolute vs absolute URL error
+    const normalizedPath = newRelativePath.startsWith('/') ? newRelativePath.slice(1) : newRelativePath;
+
+    const baseUri = new URL(this.basePath, document.baseURI);
+    const absolutePath = new URL(normalizedPath, baseUri).pathname;
 
     console.log('Navigating to absolute path:', absolutePath);
 
@@ -81,9 +85,11 @@ export class Cv1karunnyiAmbulanceUfeRouter {
 
   render() {
 
-    const navigate = (path:string) => {
-      const absolute = new URL(path, new URL(this.basePath, document.baseURI)).pathname;
-      window.navigation.navigate(absolute)
+    const navigate = (path: string) => {
+      // Remove leading slash if present
+      const normalized = path.startsWith('/') ? path.slice(1) : path;
+      const absolute = new URL(normalized, new URL(this.basePath, document.baseURI)).pathname;
+      window.navigation.navigate(absolute);
     }
     return (
       <Host>
