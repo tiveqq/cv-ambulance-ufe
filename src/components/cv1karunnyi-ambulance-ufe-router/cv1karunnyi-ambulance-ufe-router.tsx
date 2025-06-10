@@ -54,7 +54,7 @@ export class Cv1karunnyiAmbulanceUfeRouter {
     const baseUri = new URL(this.basePath, document.baseURI);
     const absolutePath = new URL(normalizedPath, baseUri).pathname;
 
-    console.log('Navigating to absolute path:', absolutePath);
+    console.log('Navigating to abslute path:', absolutePath);
 
     window.history.pushState({}, '', absolutePath);
     this.currentRoute = { path: newRelativePath };
