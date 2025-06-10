@@ -19,7 +19,7 @@ export const config: Config = {
     },
     {
       type: 'www',
-      baseUrl: '/fea/cv1-karunnyi-ambulance-ufe/',
+      // baseUrl: '/fea/cv1-karunnyi-ambulance-ufe/',
       serviceWorker: null, // disable service workers
     },
   ],
