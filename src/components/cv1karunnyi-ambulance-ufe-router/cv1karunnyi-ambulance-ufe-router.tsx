@@ -1,5 +1,5 @@
 import { Component, Host, h, State, Listen, Prop } from '@stencil/core';
-import {Route, Routes } from '../../utils/router';
+import {Route, Routes } from '../../global/routes';
 
 
 declare global {
@@ -85,32 +85,32 @@ export class Cv1karunnyiAmbulanceUfeRouter {
 
   render() {
 
-    const navigate = (path: string) => {
-      // Use the path as-is
-      window.navigation.navigate(path);
-    };
+    // const navigate = (path: string) => {
+    //   // Use the path as-is
+    //   window.navigation.navigate(path);
+    // };
     return (
       <Host>
         <div class="router-container">
           <header>
             <nav>
               <ul>
-                <li>
-                  <a api-base={this.apiBase} onClick={(e) => {
-                    e.preventDefault();
-                    navigate(Routes.PATIENT_LIST);
-                  }}>
-                    Patients
-                  </a>
-                </li>
-                <li>
-                  <a api-base={this.apiBase} onClick={(e) => {
-                    e.preventDefault();
-                    navigate(Routes.PATIENT_CREATE);
-                  }}>
-                    New Patient
-                  </a>
-                </li>
+                {/*<li>*/}
+                {/*  <a api-base={this.apiBase} onClick={(e) => {*/}
+                {/*    e.preventDefault();*/}
+                {/*    navigate(Routes.PATIENT_LIST);*/}
+                {/*  }}>*/}
+                {/*    Patients*/}
+                {/*  </a>*/}
+                {/*</li>*/}
+                {/*<li>*/}
+                {/*  <a api-base={this.apiBase} onClick={(e) => {*/}
+                {/*    e.preventDefault();*/}
+                {/*    navigate(Routes.PATIENT_CREATE);*/}
+                {/*  }}>*/}
+                {/*    New Patient*/}
+                {/*  </a>*/}
+                {/*</li>*/}
               </ul>
             </nav>
           </header>
