@@ -3,6 +3,7 @@ import { Config } from '@stencil/core';
 export const config: Config = {
   globalScript: 'src/global/app.ts',
   namespace: 'ambulance-ufe',
+  sourceMap: true,
   outputTargets: [
     {
       type: 'dist',
