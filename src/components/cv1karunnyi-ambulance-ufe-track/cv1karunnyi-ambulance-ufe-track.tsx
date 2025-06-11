@@ -419,10 +419,10 @@ export class Cv1karunnyiAmbulanceUfeTrack {
           <md-tabs
             onMdTabChange={(e) => this.handleTabChange(e)}
           >
-            <md-primary-tab>All Patients</md-primary-tab>
-            <md-primary-tab>New</md-primary-tab>
-            <md-primary-tab>In Treatment</md-primary-tab>
-            <md-primary-tab>Completed</md-primary-tab>
+            {/*<md-primary-tab>All Patients</md-primary-tab>*/}
+            {/*<md-primary-tab>New</md-primary-tab>*/}
+            {/*<md-primary-tab>In Treatment</md-primary-tab>*/}
+            {/*<md-primary-tab>Completed</md-primary-tab>*/}
           </md-tabs>
 
           <div class="content">
